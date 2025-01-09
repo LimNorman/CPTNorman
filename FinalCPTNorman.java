@@ -13,13 +13,10 @@ public class FinalCPTNorman{
 		String strNames;
 		int intScore;
 		String strChoice;
-		boolean blnStart;
-		boolean blnHigh;
-		boolean blnQuit;
-		boolean blnHelp;
+		String strThemes;
+		String strWords;
+		String strThemeChoice;
 
-
-		
 		// Main menu
 		con.println("||      ||         //\\         ||\\        || --------------           //\\                //\\                    //\\          ||\\        ||");
 		con.println("||      ||        //  \\        || \\       || ||                      //  \\              //  \\                  //  \\         || \\       ||");
@@ -38,7 +35,33 @@ public class FinalCPTNorman{
 		con.println("Quit");
 		con.println("");
 		con.println("Help");
+		con.println("");
+		con.println("What would you like to do?");
+		strChoice = con.readLine();
 		
+		//Opens respective game options
+		if(strChoice.equalsIgnoreCase("Play Game")){
+			con.clear();
+			while(Theme.eof() == false){
+				strThemes = Theme.readLine();
+				con.println(strThemes);
+				con.println(""); 
+			}
+			con.print("Pick your Theme: ");
+			strThemeChoice = con.readLine();
+		}else if(strChoice.equalsIgnoreCase("View HighScores")){
+			
+		}else if(strChoice.equalsIgnoreCase("Quit")){
+			System.exit(0);
+		}else if(strChoice.equalsIgnoreCase("Help")){
+			
+		}else{
+			con.clear();
+			con.println("");
+			con.println("Invalid option");
+			con.sleep(1000);
+			System.exit(0);
+		}
         
 	}
 }
