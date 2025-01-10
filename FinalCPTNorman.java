@@ -15,8 +15,13 @@ public class FinalCPTNorman{
 		String strChoice;
 		String strThemes;
 		String strWords;
-		String strThemeChoice;
+		char chrWordCheck;
+		String strWordEnter;
+		char chrThemeChoice;
 
+		//Initalize variables
+		chrWordCheck = Words.readChar(); 
+		
 		// Main menu
 		con.println("||      ||         //\\         ||\\        || --------------           //\\                //\\                    //\\          ||\\        ||");
 		con.println("||      ||        //  \\        || \\       || ||                      //  \\              //  \\                  //  \\         || \\       ||");
@@ -48,7 +53,19 @@ public class FinalCPTNorman{
 				con.println(""); 
 			}
 			con.print("Pick your Theme: ");
-			strThemeChoice = con.readLine();
+			chrThemeChoice = con.readChar();
+			
+			while(Words.eof() == false && chrThemeChoice != chrWordCheck){
+				chrWordCheck = Words.readChar();
+				if(chrThemeChoice == chrWordCheck){
+					while(chrThemeChoice == chrWordCheck){
+						strWordEnter = Words.readLine();
+						con.sleep(1000);
+						con.println(strWordEnter);
+						chrWordCheck = Words.readChar();
+					}
+				}
+			}
 		}else if(strChoice.equalsIgnoreCase("View HighScores")){
 			
 		}else if(strChoice.equalsIgnoreCase("Quit")){
