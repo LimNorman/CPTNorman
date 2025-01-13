@@ -14,13 +14,18 @@ public class FinalCPTNorman{
 		int intScore;
 		String strChoice;
 		String strThemes;
-		String strWords;
-		char chrWordCheck;
-		String strWordEnter;
-		char chrThemeChoice;
+		String strWords[][];
+		String strWordCheck;
+		String strThemeChoice;
+		int intWordCount;
+		int intCount;
+		int intRand;
+		String strTempName;
+		String strTempPrice;
+		int intRow2;
 
 		//Initalize variables
-		chrWordCheck = Words.readChar(); 
+		intWordCount = 0;
 		
 		// Main menu
 		con.println("||      ||         //\\         ||\\        || --------------           //\\                //\\                    //\\          ||\\        ||");
@@ -53,19 +58,38 @@ public class FinalCPTNorman{
 				con.println(""); 
 			}
 			con.print("Pick your Theme: ");
-			chrThemeChoice = con.readChar();
+			strThemeChoice = con.readLine();
 			
-			while(Words.eof() == false && chrThemeChoice != chrWordCheck){
-				chrWordCheck = Words.readChar();
-				if(chrThemeChoice == chrWordCheck){
-					while(chrThemeChoice == chrWordCheck){
-						strWordEnter = Words.readLine();
-						con.sleep(1000);
-						con.println(strWordEnter);
-						chrWordCheck = Words.readChar();
+			if(strThemeChoice.equalsIgnoreCase("Video Games")){
+				TextInputFile Video = new TextInputFile("VideoGamesWords.txt");
+				while(Video.eof() == false){
+					strWordCheck = Video.readLine();
+					intWordCount = intWordCount + 1;
+			}
+			Video.close();
+			TextInputFile Videos = new TextInputFile("VideoGamesWords.txt");
+			strWords = new String[intWordCount][2];
+			for(intCount = 0; intCount < intWordCount; intCount++){
+				strWords[intCount][0] = Videos.readLine();
+				intRand = (int)(Math.random() * 100 + 1);
+				strWords[intCount][1] = String.valueOf(intRand);
+			} 
+			for(intRow2 = 0; intRow2 < intWordCount-1; intRow2++){
+				for(intCount = 0; intCount < intWordCount-1-intRow2; intCount++){
+					if(Integer.parseInt(strWords[intCount][1]) > Integer.parseInt(strWords[intCount+1][1])){
+						strTempName = strWords[intCount][0];
+						strTempPrice = strWords[intCount][1];
+						strWords[intCount][0] = strWords[intCount+1][0];
+						strWords[intCount][1] = strWords[intCount+1][1];
+						strWords[intCount+1][0] = strTempName;
+						strWords[intCount+1][1] = strTempPrice;
+						}
 					}
 				}
+			}else if(strThemeChoice.equalsIgnoreCase("Movies")){
+				
 			}
+			
 		}else if(strChoice.equalsIgnoreCase("View HighScores")){
 			
 		}else if(strChoice.equalsIgnoreCase("Quit")){
@@ -79,6 +103,7 @@ public class FinalCPTNorman{
 			con.sleep(1000);
 			System.exit(0);
 		}
-        
 	}
 }
+  
+
