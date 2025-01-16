@@ -5,7 +5,7 @@ public class FinalCPTNorman{
 		Console con = new Console(1660,600);
 		
 		//Opens Files
-	    TextOutputFile Score = new TextOutputFile("HighScore.txt", true);
+	    //TextOutputFile Score = new TextOutputFile("HighScore.txt", true);
 	    TextInputFile Theme = new TextInputFile("Themes.txt");
 	    TextInputFile Words = new TextInputFile("Words.txt");
 	    
@@ -15,7 +15,6 @@ public class FinalCPTNorman{
 		int intHighScore;
 		String strChoice;
 		String strThemes;
-		//String strWords[][];
 		String strWordCheck;
 		String strThemeChoice;
 		int intWordCount;
@@ -24,6 +23,11 @@ public class FinalCPTNorman{
 		String strTempName;
 		String strTempPrice;
 		int intRow2;
+		String strLetter[][];
+		int intLength;
+		String strWords[][];
+		String strSecret;
+		
 
 		//Initalize variables
 		intWordCount = 0;
@@ -61,10 +65,113 @@ public class FinalCPTNorman{
 			con.print("Pick your Theme: ");
 			strThemeChoice = con.readLine();
 			
-
-			//}
+//randomising based on choice
+			if(strThemeChoice.equalsIgnoreCase("Video Games")){
+				TextInputFile Video = new TextInputFile("VideoGamesWords.txt");
+				while(Video.eof() == false){
+					strWordCheck = Video.readLine();
+					intWordCount = intWordCount + 1;
+			}
+				Video.close();
+				TextInputFile Videos = new TextInputFile("VideoGamesWords.txt");
+				strWords = new String[intWordCount][2];
+				for(intCount = 0; intCount < intWordCount; intCount++){
+					strWords[intCount][0] = Videos.readLine();
+					intRand = (int)(Math.random() * 100 + 1);
+					strWords[intCount][1] = intRand + "";
+				} 
+				for(intRow2 = 0; intRow2 < intWordCount-1; intRow2++){
+					for(intCount = 0; intCount < intWordCount-1-intRow2; intCount++){
+						if(Integer.parseInt(strWords[intCount][1]) < Integer.parseInt(strWords[intCount+1][1])){
+							strTempName = strWords[intCount][0];
+							strTempPrice = strWords[intCount][1];
+							strWords[intCount][0] = strWords[intCount+1][0];
+							strWords[intCount][1] = strWords[intCount+1][1];
+							strWords[intCount+1][0] = strTempName;
+							strWords[intCount+1][1] = strTempPrice;
+						}
+					}
+					con.println(strWords[intCount][1]+" = "+strWords[intCount][0]);
+				}
+			Videos.close();
+			strSecret = strWords[0][0];
+			intLength = strSecret.length();
 			con.clear();
-			strScore = main(con,strThemeChoice);
+			strScore = main(con,strThemeChoice, intLength, strSecret);
+			
+			}else if(strThemeChoice.equalsIgnoreCase("Movies")){
+				TextInputFile Movie = new TextInputFile("MoviesWords.txt");
+				while(Movie.eof() == false){
+					strWordCheck = Movie.readLine();
+					intWordCount = intWordCount + 1;
+			}
+				Movie.close();
+				TextInputFile Movies = new TextInputFile("MoviesWords.txt");
+				strWords = new String[intWordCount][2];
+				for(intCount = 0; intCount < intWordCount; intCount++){
+					strWords[intCount][0] = Movies.readLine();
+					intRand = (int)(Math.random() * 100 + 1);
+					strWords[intCount][1] = intRand + "";
+				} 
+				for(intRow2 = 0; intRow2 < intWordCount-1; intRow2++){
+					for(intCount = 0; intCount < intWordCount-1-intRow2; intCount++){
+						if(Integer.parseInt(strWords[intCount][1]) < Integer.parseInt(strWords[intCount+1][1])){
+							strTempName = strWords[intCount][0];
+							strTempPrice = strWords[intCount][1];
+							strWords[intCount][0] = strWords[intCount+1][0];
+							strWords[intCount][1] = strWords[intCount+1][1];
+							strWords[intCount+1][0] = strTempName;
+							strWords[intCount+1][1] = strTempPrice;
+						}
+					}
+					con.println(strWords[intCount][0]+" = "+strWords[intCount][1]);
+				}
+				Movies.close();
+				strSecret = strWords[0][0];
+				intLength = strSecret.length();
+				con.clear();
+			    strScore = main(con,strThemeChoice, intLength, strSecret);
+			    
+			}else if(strThemeChoice.equalsIgnoreCase("TableTop Games")){
+				TextInputFile Table = new TextInputFile("TableTopWords.txt");
+				while(Table.eof() == false){
+					strWordCheck = Table.readLine();
+					intWordCount = intWordCount + 1;
+					//con.println(intWordCount);
+			}
+				Table.close();
+				//intWordCount = intWordCount + 1;
+				TextInputFile Tables = new TextInputFile("TableTopWords.txt");
+				strWords = new String[intWordCount][2];
+				for(intCount = 0; intCount < intWordCount; intCount++){
+					strWords[intCount][0] = Tables.readLine();
+					intRand = (int)(Math.random() * 100 + 1);
+					strWords[intCount][1] = intRand+"";
+					//con.println(strWords[intCount][0]+" = "+strWords[intCount][1]);
+				} 
+				for(intRow2 = 0; intRow2 < intWordCount-1; intRow2++){
+					for(intCount = 0; intCount < intWordCount-1-intRow2; intCount++){
+						if(Integer.parseInt(strWords[intCount][1]) > Integer.parseInt(strWords[intCount+1][1])){
+							strTempName = strWords[intCount][0];
+							strTempPrice = strWords[intCount][1];
+							strWords[intCount][0] = strWords[intCount+1][0];
+							strWords[intCount][1] = strWords[intCount+1][1];
+							strWords[intCount+1][0] = strTempName;
+							strWords[intCount+1][1] = strTempPrice;
+						}
+					}
+					con.println(strWords[intCount][0]+" = "+strWords[intCount][1]);
+				}
+				strSecret = strWords[0][0];
+				intLength = strSecret.length();
+				con.clear();
+			    strScore = main(con,strThemeChoice, intLength, strSecret);
+			}else{
+				con.clear();
+				con.println("Invalid Theme");
+				con.sleep(1000);
+				System.exit(0);
+			}
 			
 		}else if(strChoice.equalsIgnoreCase("View HighScores")){
 			
@@ -82,26 +189,20 @@ public class FinalCPTNorman{
 			System.exit(0);
 		}
 	}
-	public static String main(Console con,String strTheme){
+	public static String main(Console con,String strTheme, int intL, String strS){
 		//Variables
-		String strSecret;
 		String strScore;
 		int intWrong;
 		boolean blnContinue;
 		boolean blnBack;
 		int intNextWord;
-		int intRow2;
-		int intWordCount;
-		int intRand;
-		String strTempName;
-		String strTempPrice;
+		String strLetter[][];
 		int intCount;
-		String strWords[][];
-		String strWordCheck;
-		int intTest;
-		int intRow;
-		String strLetter;
-		int intLength;
+		int intRan;
+		int intRow2;
+		String strTempPrice;
+		String strTempName;
+		String strSpaceCheck;
 		
 		//Initialzing variables
 		strScore = "0";
@@ -109,105 +210,9 @@ public class FinalCPTNorman{
 		blnContinue = false;
 		blnBack = false;
 		intNextWord = 0;
-		intWordCount = 0;
-		intTest = 0;
+		strSpaceCheck = (" ");
 		
-		//randomising based on choice
-			if(strTheme.equalsIgnoreCase("Video Games")){
-				TextInputFile Video = new TextInputFile("VideoGamesWords.txt");
-				while(Video.eof() == false){
-					strWordCheck = Video.readLine();
-					intWordCount = intWordCount + 1;
-			}
-				Video.close();
-				TextInputFile Videos = new TextInputFile("VideoGamesWords.txt");
-				strWords = new String[intWordCount][2];
-				for(intCount = 0; intCount < intWordCount; intCount++){
-					strWords[intCount][0] = Videos.readLine();
-					intRand = (int)(Math.random() * 100 + 1);
-					strWords[intCount][1] = String.valueOf(intRand);
-				} 
-				for(intRow2 = 0; intRow2 < intWordCount-1; intRow2++){
-					for(intCount = 0; intCount < intWordCount-1-intRow2; intCount++){
-						if(Integer.parseInt(strWords[intCount][1]) < Integer.parseInt(strWords[intCount+1][1])){
-							strTempName = strWords[intCount][0];
-							strTempPrice = strWords[intCount][1];
-							strWords[intCount][0] = strWords[intCount+1][0];
-							strWords[intCount][1] = strWords[intCount+1][1];
-							strWords[intCount+1][0] = strTempName;
-							strWords[intCount+1][1] = strTempPrice;
-						}
-					}
-					con.println(strWords[intCount][1]+" = "+strWords[intCount][0]);
-				}
-			Videos.close();
-			}else if(strTheme.equalsIgnoreCase("Movies")){
-				TextInputFile Movie = new TextInputFile("MoviesWords.txt");
-				while(Movie.eof() == false){
-					strWordCheck = Movie.readLine();
-					intWordCount = intWordCount + 1;
-			}
-				Movie.close();
-				TextInputFile Movies = new TextInputFile("MoviesWords.txt");
-				strWords = new String[intWordCount][2];
-				for(intCount = 0; intCount < intWordCount; intCount++){
-					strWords[intCount][0] = Movies.readLine();
-					intRand = (int)(Math.random() * 100 + 1);
-					strWords[intCount][1] = String.valueOf(intRand);
-				} 
-				for(intRow2 = 0; intRow2 < intWordCount-1; intRow2++){
-					for(intCount = 0; intCount < intWordCount-1-intRow2; intCount++){
-						if(Integer.parseInt(strWords[intCount][1]) < Integer.parseInt(strWords[intCount+1][1])){
-							strTempName = strWords[intCount][0];
-							strTempPrice = strWords[intCount][1];
-							strWords[intCount][0] = strWords[intCount+1][0];
-							strWords[intCount][1] = strWords[intCount+1][1];
-							strWords[intCount+1][0] = strTempName;
-							strWords[intCount+1][1] = strTempPrice;
-						}
-					}
-					con.println(strWords[intCount][0]+" = "+strWords[intCount][1]);
-				}
-			}else if(strTheme.equalsIgnoreCase("TableTop Games")){
-				TextInputFile Table = new TextInputFile("TableTopWords.txt");
-				while(Table.eof() == false){
-					strWordCheck = Table.readLine();
-					intWordCount = intWordCount + 1;
-					//con.println(intWordCount);
-			}
-				Table.close();
-				//intWordCount = intWordCount + 1;
-				TextInputFile Tables = new TextInputFile("TableTopWords.txt");
-				strWords = new String[intWordCount][2];
-				for(intCount = 0; intCount < intWordCount; intCount++){
-					strWords[intCount][0] = Tables.readLine();
-					intRand = (int)(Math.random() * 100 + 1);
-					intTest = intTest + 1;
-					strWords[intCount][1] = intRand+"";
-					//con.println(strWords[intCount][0]+" = "+strWords[intCount][1]);
-				} 
-				for(intRow2 = 0; intRow2 < intWordCount-1; intRow2++){
-					for(intCount = 0; intCount < intWordCount-1-intRow2; intCount++){
-						if(Integer.parseInt(strWords[intCount][1]) > Integer.parseInt(strWords[intCount+1][1])){
-							strTempName = strWords[intCount][0];
-							strTempPrice = strWords[intCount][1];
-							strWords[intCount][0] = strWords[intCount+1][0];
-							strWords[intCount][1] = strWords[intCount+1][1];
-							strWords[intCount+1][0] = strTempName;
-							strWords[intCount+1][1] = strTempPrice;
-						}
-					}
-					con.println(strWords[intCount][0]+" = "+strWords[intCount][1]);
-					strSecret = strWords[0][0];
-					//con.println(strSecret);
-				}
-				strSecret = strWords[0][0];
-			}else{
-				con.clear();
-				con.println("Invalid Theme");
-				con.sleep(1000);
-				System.exit(0);
-			}
+		//clears past text
 		con.clear();
 		//Main gameplay
 		con.println("        ----------------");
@@ -223,9 +228,21 @@ public class FinalCPTNorman{
 		con.println("        |");
 		con.println("-------------------");
 		
-		//checks for how much spaces should be put in
-		intLength = strSecret.length();
-		
+		//prints empty spaces and puts letters in array
+		con.println("");
+		con.println("");
+		strLetter = new String[intL][2];
+			for(intCount = 0; intCount < intL; intCount++){
+				strLetter[intCount][0] = strS.substring(intCount,intCount+1);
+				intRan = (int)(Math.random() * 100 + 1);
+				strLetter[intCount][1] = intRan +"";
+				if(strLetter[intCount][0].equalsIgnoreCase(" ")){
+					con.print("   ");
+				}else{
+					con.print("----  ");
+				}
+			}
+			
 		return(strScore);
 	}
 }
