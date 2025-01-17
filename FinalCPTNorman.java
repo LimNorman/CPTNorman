@@ -65,7 +65,7 @@ public class FinalCPTNorman{
 			con.print("Pick your Theme: ");
 			strThemeChoice = con.readLine();
 			
-//randomising based on choice
+			//randomising based on choice
 			if(strThemeChoice.equalsIgnoreCase("Video Games")){
 				TextInputFile Video = new TextInputFile("VideoGamesWords.txt");
 				while(Video.eof() == false){
@@ -203,6 +203,9 @@ public class FinalCPTNorman{
 		String strTempPrice;
 		String strTempName;
 		String strSpaceCheck;
+		String strGuess;
+		boolean blnWrong;
+		boolean blnWrongCheck;
 		
 		//Initialzing variables
 		strScore = "0";
@@ -211,28 +214,99 @@ public class FinalCPTNorman{
 		blnBack = false;
 		intNextWord = 0;
 		strSpaceCheck = (" ");
+		blnWrongCheck = false;
+		blnWrong = false;
 		
 		//clears past text
 		con.clear();
+		
 		//Main gameplay
-		con.println("        ----------------");
-		con.println("        |              |");
-		con.println("        |");
-		con.println("        |");
-		con.println("        |");
-		con.println("        |");
-		con.println("        |");
-		con.println("        |");
-		con.println("        |");
-		con.println("        |");
-		con.println("        |");
-		con.println("-------------------");
+		while(blnWrong == false){
+			con.println("        ----------------");
+			con.println("        |              |");
+			con.println("        |");
+			con.println("        |");
+			con.println("        |");
+			con.println("        |");
+			con.println("        |");
+			con.println("        |");
+			con.println("        |");
+			con.println("        |");
+			con.println("        |");
+			con.println("-------------------");
+			
+			if(intWrong == 1){
+				con.clear();
+				con.println("        ----------------");
+				con.println("        |              |");
+				con.println("        |             ---");
+				con.println("        |            |   |");
+				con.println("        |             ---");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("-------------------");
+				
+			}else if(intWrong == 2){
+				con.clear();
+				con.println("        ----------------");
+				con.println("        |              |");
+				con.println("        |             ---");
+				con.println("        |            |   |");
+				con.println("        |             ---");
+				con.println("        |              |");
+				con.println("        |              |");
+				con.println("        |              |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("-------------------");
+				
+			}else if(intWrong == 3){
+				con.clear();
+				con.println("        ----------------");
+				con.println("        |              |");
+				con.println("        |             ---");
+				con.println("        |            |   |");
+				con.println("        |             ---");
+				con.println("        |            //|\\\\");
+				con.println("        |           // | \\\\");
+				con.println("        |              |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("-------------------");
+				
+			}else if(intWrong == 4){
+				con.clear();
+				con.println("        ----------------");
+				con.println("        |              |");
+				con.println("        |             ---");
+				con.println("        |            |   |");
+				con.println("        |             ---");
+				con.println("        |            //|\\\\");
+				con.println("        |           // | \\\\");
+				con.println("        |              |");
+				con.println("        |            // \\\\");
+				con.println("        |           //   \\\\");
+				con.println("        |");
+				con.println("-------------------");
+				
+			}else{
+			
+			}
+			blnWrong = true;
+			blnWrongCheck = false;
+		}
 		
 		//prints empty spaces and puts letters in array
 		con.println("");
 		con.println("");
 		strLetter = new String[intL][2];
-			for(intCount = 0; intCount < intL; intCount++){
+			for(intCount = 0; intCount < intL-1; intCount++){
 				strLetter[intCount][0] = strS.substring(intCount,intCount+1);
 				intRan = (int)(Math.random() * 100 + 1);
 				strLetter[intCount][1] = intRan +"";
@@ -242,7 +316,22 @@ public class FinalCPTNorman{
 					con.print("----  ");
 				}
 			}
+		con.println("----  ");
+		con.println("");
+		con.println("Enter your guess");
+		strGuess = con.readLine();
+		if(strGuess.equalsIgnoreCase(strS)){
 			
+		}else{
+			blnWrongCheck = true;
+		}		
+		
+		if(blnWrongCheck == true){
+			intWrong = intWrong+1;
+			blnWrong = false;
+			con.println("Hello");
+		}
+
 		return(strScore);
 	}
 }
