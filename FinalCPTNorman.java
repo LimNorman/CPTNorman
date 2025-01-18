@@ -217,25 +217,26 @@ public class FinalCPTNorman{
 		blnWrongCheck = false;
 		blnWrong = false;
 		
-		//clears past text
-		con.clear();
 		
 		//Main gameplay
 		while(blnWrong == false){
-			con.println("        ----------------");
-			con.println("        |              |");
-			con.println("        |");
-			con.println("        |");
-			con.println("        |");
-			con.println("        |");
-			con.println("        |");
-			con.println("        |");
-			con.println("        |");
-			con.println("        |");
-			con.println("        |");
-			con.println("-------------------");
-			
-			if(intWrong == 1){
+			//clears past text
+			con.clear();
+
+			if(intWrong == 0){
+				con.println("        ----------------");
+				con.println("        |              |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("-------------------");
+			} else if(intWrong == 1){
 				con.clear();
 				con.println("        ----------------");
 				con.println("        |              |");
@@ -300,36 +301,37 @@ public class FinalCPTNorman{
 			}
 			blnWrong = true;
 			blnWrongCheck = false;
-		}
 		
-		//prints empty spaces and puts letters in array
-		con.println("");
-		con.println("");
-		strLetter = new String[intL][2];
-			for(intCount = 0; intCount < intL-1; intCount++){
-				strLetter[intCount][0] = strS.substring(intCount,intCount+1);
-				intRan = (int)(Math.random() * 100 + 1);
-				strLetter[intCount][1] = intRan +"";
-				if(strLetter[intCount][0].equalsIgnoreCase(" ")){
-					con.print("   ");
-				}else{
-					con.print("----  ");
+			//prints empty spaces and puts letters in array
+			con.println("");
+			con.println("");
+			strLetter = new String[intL][2];
+				for(intCount = 0; intCount < intL-1; intCount++){
+					strLetter[intCount][0] = strS.substring(intCount,intCount+1);
+					intRan = (int)(Math.random() * 100 + 1);
+					strLetter[intCount][1] = intRan +"";
+					if(strLetter[intCount][0].equalsIgnoreCase(" ")){
+						con.print("   ");
+					}else{
+						con.print("----  ");
+					}
 				}
-			}
-		con.println("----  ");
-		con.println("");
-		con.println("Enter your guess");
-		strGuess = con.readLine();
-		if(strGuess.equalsIgnoreCase(strS)){
+			con.println("----  ");
+			con.println("");
+			con.println("Enter your guess");
+			strGuess = con.readLine();
+			if(strGuess.equalsIgnoreCase(strS)){
+				con.println("You win!");
+				
+			}else{
+				blnWrongCheck = true;
+			}		
 			
-		}else{
-			blnWrongCheck = true;
-		}		
-		
-		if(blnWrongCheck == true){
-			intWrong = intWrong+1;
-			blnWrong = false;
-			con.println("Hello");
+			if(blnWrongCheck == true){
+				intWrong = intWrong+1;
+				blnWrong = false;
+				con.println("Hello");
+			}
 		}
 
 		return(strScore);
