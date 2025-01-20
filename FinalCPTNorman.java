@@ -5,7 +5,6 @@ public class FinalCPTNorman{
 		Console con = new Console(1660,600);
 		
 		//Opens Files
-	    //TextOutputFile Score = new TextOutputFile("HighScore.txt", true);
 	    TextInputFile Theme = new TextInputFile("Themes.txt");
 	    TextInputFile Words = new TextInputFile("Words.txt");
 	    
@@ -31,6 +30,7 @@ public class FinalCPTNorman{
 
 		//Initalize variables
 		intWordCount = 0;
+		strScore = "0";
 		
 		// Main menu
 		con.println("||      ||         //\\         ||\\        || --------------           //\\                //\\                    //\\          ||\\        ||");
@@ -97,7 +97,7 @@ public class FinalCPTNorman{
 			strSecret = strWords[0][0];
 			intLength = strSecret.length();
 			con.clear();
-			strScore = main(con,strThemeChoice, intLength, strSecret);
+			strScore = main(con,strThemeChoice, intLength, strSecret,strScore);
 			
 			}else if(strThemeChoice.equalsIgnoreCase("Movies")){
 				TextInputFile Movie = new TextInputFile("MoviesWords.txt");
@@ -130,7 +130,7 @@ public class FinalCPTNorman{
 				strSecret = strWords[0][0];
 				intLength = strSecret.length();
 				con.clear();
-			    strScore = main(con,strThemeChoice, intLength, strSecret);
+			    strScore = main(con,strThemeChoice, intLength, strSecret,strScore);
 			    
 			}else if(strThemeChoice.equalsIgnoreCase("TableTop Games")){
 				TextInputFile Table = new TextInputFile("TableTopWords.txt");
@@ -165,7 +165,7 @@ public class FinalCPTNorman{
 				strSecret = strWords[0][0];
 				intLength = strSecret.length();
 				con.clear();
-			    strScore = main(con,strThemeChoice, intLength, strSecret);
+			    strScore = main(con,strThemeChoice,intLength, strSecret,strScore);
 			}else{
 				con.clear();
 				con.println("Invalid Theme");
@@ -189,26 +189,27 @@ public class FinalCPTNorman{
 			System.exit(0);
 		}
 	}
-	public static String main(Console con,String strTheme, int intL, String strS){
+	public static String main(Console con,String strTheme, int intL, String strS,String strSco){
 		//Variables
-		String strScore;
 		int intWrong;
 		boolean blnContinue;
 		boolean blnBack;
 		int intNextWord;
-		String strLetter[][];
+		int intLetterIndex[][];
+		int intIndex;
 		int intCount;
 		int intRan;
 		int intRow2;
-		String strTempPrice;
-		String strTempName;
+		String strTempLetter;
+		int intTempIndex;
+		int intTempValue;
 		String strSpaceCheck;
 		String strGuess;
 		boolean blnWrong;
 		boolean blnWrongCheck;
+		boolean blnFoundHint;
 		
 		//Initialzing variables
-		strScore = "0";
 		intWrong = 0;
 		blnContinue = false;
 		blnBack = false;
@@ -217,25 +218,52 @@ public class FinalCPTNorman{
 		blnWrongCheck = false;
 		blnWrong = false;
 		
-		//clears past text
-		con.clear();
+		// set random value to each letter except space
+		intLetterIndex = new int[intL][2];
+		for(intCount = 0; intCount < intL; intCount++){
+			intLetterIndex[intCount][0] = intCount;
+			
+			if(strS.substring(intCount,intCount+1).equalsIgnoreCase(" ")){
+				intLetterIndex[intCount][1] = 0;
+			}else{
+				intRan = (int)(Math.random() * 100 + 1);
+				intLetterIndex[intCount][1] = intRan;
+			}
+		}
+		
+		// sort the order for showing each letter hint
+		for(intRow2 = 0; intRow2 < intL-1; intRow2++){
+			for(intCount = 0; intCount < intL-1-intRow2; intCount++){
+				if(intLetterIndex[intCount][1] < intLetterIndex[intCount+1][1]){
+					intTempIndex = intLetterIndex[intCount][0];
+					intTempValue = intLetterIndex[intCount][1];
+					intLetterIndex[intCount][0] = intLetterIndex[intCount+1][0];
+					intLetterIndex[intCount][1] = intLetterIndex[intCount+1][1];
+					intLetterIndex[intCount+1][0] = intTempIndex;
+					intLetterIndex[intCount+1][1] = intTempValue;
+				}
+			}
+		}
 		
 		//Main gameplay
 		while(blnWrong == false){
-			con.println("        ----------------");
-			con.println("        |              |");
-			con.println("        |");
-			con.println("        |");
-			con.println("        |");
-			con.println("        |");
-			con.println("        |");
-			con.println("        |");
-			con.println("        |");
-			con.println("        |");
-			con.println("        |");
-			con.println("-------------------");
-			
-			if(intWrong == 1){
+			//clears past text
+			con.clear();
+
+			if(intWrong == 0){
+				con.println("        ----------------");
+				con.println("        |              |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("-------------------");
+			} else if(intWrong == 1){
 				con.clear();
 				con.println("        ----------------");
 				con.println("        |              |");
@@ -272,8 +300,8 @@ public class FinalCPTNorman{
 				con.println("        |             ---");
 				con.println("        |            |   |");
 				con.println("        |             ---");
-				con.println("        |            //|\\\\");
-				con.println("        |           // | \\\\");
+				con.println("        |            //|");
+				con.println("        |           // |");
 				con.println("        |              |");
 				con.println("        |");
 				con.println("        |");
@@ -290,48 +318,271 @@ public class FinalCPTNorman{
 				con.println("        |            //|\\\\");
 				con.println("        |           // | \\\\");
 				con.println("        |              |");
+				con.println("        |");
+				con.println("        |");
+				con.println("        |");
+				con.println("-------------------");
+				
+			}else if(intWrong == 5){
+				con.clear();
+				con.println("        ----------------");
+				con.println("        |              |");
+				con.println("        |             ---");
+				con.println("        |            |   |");
+				con.println("        |             ---");
+				con.println("        |            //|\\\\");
+				con.println("        |           // | \\\\");
+				con.println("        |              |");
+				con.println("        |            // ");
+				con.println("        |           //  ");
+				con.println("        |");
+				con.println("-------------------");
+				
+			}else if(intWrong == 5){
+				con.clear();
+				con.println("        ----------------");
+				con.println("        |              |");
+				con.println("        |             ---");
+				con.println("        |            |   |");
+				con.println("        |             ---");
+				con.println("        |            //|\\\\");
+				con.println("        |           // | \\\\");
+				con.println("        |              |");
 				con.println("        |            // \\\\");
 				con.println("        |           //   \\\\");
 				con.println("        |");
 				con.println("-------------------");
 				
 			}else{
-			
+				blnWrong = true;
+				blnWrongCheck = false;
+				con.clear();
+				lose(con,strSco);
 			}
 			blnWrong = true;
 			blnWrongCheck = false;
-		}
 		
-		//prints empty spaces and puts letters in array
-		con.println("");
-		con.println("");
-		strLetter = new String[intL][2];
-			for(intCount = 0; intCount < intL-1; intCount++){
-				strLetter[intCount][0] = strS.substring(intCount,intCount+1);
-				intRan = (int)(Math.random() * 100 + 1);
-				strLetter[intCount][1] = intRan +"";
-				if(strLetter[intCount][0].equalsIgnoreCase(" ")){
+			//prints empty spaces and hint letters
+			con.println("");
+			con.println("");
+
+			for(intCount = 0; intCount < intL; intCount++){
+				strTempLetter = strS.substring(intCount,intCount+1);
+				if(strTempLetter.equalsIgnoreCase(" ")){
 					con.print("   ");
 				}else{
-					con.print("----  ");
+					blnFoundHint = false;
+					for (int intCount2 = 0; intCount2 < intWrong; intCount2++) {
+						intTempIndex = intLetterIndex[intCount2][0];
+						if (intTempIndex == intCount) {
+							// show hint
+							con.print("  " + strTempLetter + "   ");
+							blnFoundHint = true;
+						}
+					}
+					if (!blnFoundHint) {
+						// show line
+						con.print("----  ");
+					}
 				}
 			}
-		con.println("----  ");
-		con.println("");
-		con.println("Enter your guess");
-		strGuess = con.readLine();
-		if(strGuess.equalsIgnoreCase(strS)){
+			con.println("");			
 			
-		}else{
-			blnWrongCheck = true;
-		}		
-		
-		if(blnWrongCheck == true){
-			intWrong = intWrong+1;
-			blnWrong = false;
-			con.println("Hello");
+			con.println("Enter your guess");
+			strGuess = con.readLine();
+			if(strGuess.equalsIgnoreCase(strS)){
+				con.clear();
+				strSco = strSco+ "1";
+				win(con,strSco);
+				
+			}else{
+				blnWrongCheck = true;
+			}		
+			
+			if(blnWrongCheck == true){
+				intWrong = intWrong+1;
+				blnWrong = false;
+				con.println("Hello");
+			}
 		}
 
-		return(strScore);
+		return(strSco);
+	}
+	//Win Screen
+	public static String win(Console con, String strSco){
+		//Opens highscore file
+		TextOutputFile Score = new TextOutputFile("HighScores.txt", true);
+		
+		//Variables
+		String strChoice;
+		String strName;
+		
+		//Asks user for name
+		con.println("Enter your name?");
+		strName = con.readLine();
+		con.clear();
+		
+		//Main screen
+		con.println("\\\\    //   ------     ");
+		con.println(" \\\\  //   ||    ||   ||     ||             \\\\        //\\\\        //      ||      ||\\    ||");
+		con.println("  \\\\//    ||    ||   ||     ||              \\\\      //  \\\\      //       ||      || \\   ||");
+		con.println("   ||     ||    ||   ||     ||               \\\\    //    \\\\    //        ||      ||  \\  ||");
+		con.println("   ||     ||    ||   ||     ||                \\\\  //      \\\\  //         ||      ||   \\ ||");
+		con.println("   ||      ------      -----                   \\\\//        \\\\//          ||      ||    \\||");
+		con.println("");
+		con.println("Continue");
+		con.println("");
+		con.println("Back");
+		con.println("");
+		con.println("What would you like to do?");
+		strChoice = con.readLine();
+		
+		//if the player continues or leaves
+		if(strChoice.equalsIgnoreCase("Continue")){
+			Score.println(strName);
+			Score.println(strSco);
+		}else if(strChoice.equalsIgnoreCase("Back")){
+			Score.println(strName);
+			Score.println(strSco);
+			System.exit(0);
+		}
+		return(strSco);
+	}
+	public static String lose(Console con, String strSco){
+		con.clear();
+		//Opens highscore file
+		TextOutputFile Score = new TextOutputFile("HighScores.txt", true);
+		
+		//Variables
+		String strChoice;
+		String strName;
+		boolean blnAni;
+		
+		//initalize variables
+		blnAni = true;
+		
+		//Asks user for name
+		con.println("Enter your name?");
+		strName = con.readLine();
+		con.clear();
+		
+		//Animation
+		while(blnAni == true){
+			con.println("        ----------------");
+			con.println("        |              |");
+			con.println("        |              ----");
+			con.println("        |             |    |");
+			con.println("        |              ----");
+			con.println("        |             ||||||");
+			con.println("        |             |||||| ");
+			con.println("        |               ||");
+			con.println("        |              ||||");
+			con.println("        |              ||||");
+			con.println("        |");
+			con.println("-------------------");
+			con.sleep(700);
+			con.clear();
+			con.println("        ----------------");
+			con.println("        |              |");
+			con.println("        |              ----");
+			con.println("        |             |    |");
+			con.println("        |              ----");
+			con.println("        |           || ||||");
+			con.println("        |           || |||| ");
+			con.println("        |              ||");
+			con.println("        |             || ||");
+			con.println("        |            || ||");
+			con.println("        |");
+			con.println("-------------------");
+			con.sleep(700);
+			con.clear();
+			con.println("        ----------------");
+			con.println("        |              |");
+			con.println("        |              ----");
+			con.println("        |             |    |");
+			con.println("        |              ----");
+			con.println("        |          || ||||");
+			con.println("        |          || |||| ");
+			con.println("        |             ||");
+			con.println("        |          || ||");
+			con.println("        |         || ||");
+			con.println("        |");
+			con.println("-------------------");
+			con.sleep(700);
+			con.clear();
+			con.println("        ----------------");
+			con.println("        |              |");
+			con.println("        |              ----");
+			con.println("        |             |    |");
+			con.println("        |              ----");
+			con.println("        |           || ||||");
+			con.println("        |           || |||| ");
+			con.println("        |              ||");
+			con.println("        |             || ||");
+			con.println("        |            || ||");
+			con.println("        |");
+			con.println("-------------------");
+			con.sleep(700);
+			con.clear();
+			con.println("        ----------------");
+			con.println("        |              |");
+			con.println("        |              ----");
+			con.println("        |             |    |");
+			con.println("        |              ----");
+			con.println("        |          || ||||");
+			con.println("        |          || |||| ");
+			con.println("        |             ||");
+			con.println("        |          || ||");
+			con.println("        |         || ||");
+			con.println("        |");
+			con.println("-------------------");
+			con.sleep(700);
+			con.clear();
+			con.println("        ----------------");
+			con.println("        |              |");
+			con.println("        |              ----");
+			con.println("        |             |    |");
+			con.println("        |              ----");
+			con.println("        |           || ||||");
+			con.println("        |           || |||| ");
+			con.println("        |              ||");
+			con.println("        |             || ||");
+			con.println("        |            || ||");
+			con.println("        |");
+			con.println("-------------------");
+			con.sleep(700);
+			con.clear();
+			con.println("        ----------------");
+			con.println("        |              |");
+			con.println("        |              ----");
+			con.println("        |             |    |");
+			con.println("        |              ----");
+			con.println("        |          || ||||");
+			con.println("        |          || |||| ");
+			con.println("        |             ||");
+			con.println("        |          || ||");
+			con.println("        |         || ||");
+			con.println("        |");
+			con.println("-------------------");
+			con.sleep(700);
+			con.clear();
+			con.println("        ----------------");
+			con.println("        |              |");
+			con.println("        |              ----");
+			con.println("        |             |    |");
+			con.println("        |              ----");
+			con.println("        |           || ||||");
+			con.println("        |           || |||| ");
+			con.println("        |              ||");
+			con.println("        |             || ||");
+			con.println("        |            || ||");
+			con.println("        |");
+			con.println("-------------------");
+			con.sleep(700);
+			con.clear();
+		}
+		
+		return(strSco);
 	}
 }
+
