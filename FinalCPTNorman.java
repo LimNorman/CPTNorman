@@ -391,9 +391,13 @@ public class FinalCPTNorman{
 			con.println("Enter your guess");
 			strGuess = con.readLine();
 			if(strGuess.equalsIgnoreCase(strS)){
+<<<<<<< HEAD
 				con.clear();
 				strSco = strSco+ "1";
 				win(con,strSco);
+=======
+				con.println("You win!");
+>>>>>>> bc536512172e7f04a3c1ddc52477d6993513148a
 				
 			}else{
 				blnWrongCheck = true;
